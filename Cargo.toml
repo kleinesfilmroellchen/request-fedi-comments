@@ -1,0 +1,18 @@
+[package]
+name = "request-fedi-comments"
+authors = ["kleines Filmröllchen <filmroellchen@serenityos.org>"]
+repository = "https://github.com/kleinesfilmroellchen/request-fedi-comments"
+license-file = "LICENSE"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+async-trait = "0.1.72"
+log = { version = "0.4.19", default-features = false }
+reqwest = "0.11.18"
+yaserde = { version = "0.8.0", features = ["yaserde_derive"] }
+yaserde_derive = "0.8.0"
+elefren = "0.22.0"
+rand = "0.8.5"
+tokio = { version = "1.29.1", features = ["macros", "rt"] }
+dotenv = "0.15.0"
