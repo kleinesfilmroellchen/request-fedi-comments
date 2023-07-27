@@ -1,11 +1,9 @@
 //! Fediverse bot interaction handling.
 
-use elefren::prelude::*;
-
-use std::env::var;
-
 use crate::error::Error;
 use crate::rfcs::RfcEntry;
+use elefren::prelude::*;
+use std::env::var;
 
 /// Creates the client structure. We don't use any of elefren's app creation, registration, or OAuth authentication functionality,
 /// instead this is a one-time (or repeated) manual process the user should execute.
@@ -19,10 +17,21 @@ pub fn create_client() -> Result<Mastodon, Error> {
 	}))
 }
 
+/// Runs a verify_credentials API call with the client credentials to verify that the credentials are usable.
+///
+/// # Errors
+/// Any errors are propagated and probably mean that the credentials are not usable.
+pub fn verify_client() -> Result<(), Error> {
+	let client = create_client()?;
+	client.verify_credentials()?;
+	Ok(())
+}
+
 /// Create a nicely-formatted post text from an RFC.
 pub fn rfc_to_post_text(rfc: RfcEntry, character_limit: usize) -> String {
 	let number = rfc.doc_id.body.strip_prefix("RFC").unwrap().trim().to_owned();
-	let mut description = rfc.r#abstract.map_or_else(|| "(no description)".into(), |a| a.p.join("\n")).trim().to_owned();
+	let mut description =
+		rfc.r#abstract.map_or_else(|| "(no description)".into(), |a| a.p.join("\n")).trim().to_owned();
 	let title = rfc.title.trim().to_owned();
 
 	// Parts we can't abbreviate. Note that Mastodon adds a constant penalty of 23 characters for (valid) URLs.

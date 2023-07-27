@@ -12,7 +12,7 @@ Publicly deployed <a rel="me" href="https://botsin.space/@rfcs">here</a>.
 
 A `.env` file must be filled with the following data:
 
-```
+```shell
 # Set this to your instance's base URL
 instance_url=https://mastodon.example
 # Obtained when creating your OAuth2 application, see https://docs.joinmastodon.org/client/token/#app
@@ -25,6 +25,8 @@ account_authorization_code=...
 access_token=...
 # Can apparently not be retrieved via API
 character_limit=500
+# Configure logging (see https://docs.rs/env_logger/latest/env_logger/#enabling-logging)
+RUST_LOG=debug,yaserde::de=warn,yaserde_derive=warn
 ```
 
 Running in release mode is recommended, since XML parsing takes very long otherwise.

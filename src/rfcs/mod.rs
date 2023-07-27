@@ -22,9 +22,8 @@ pub mod schema;
 
 pub use schema::types::RfcEntry;
 
+use crate::error::Error;
 use rand::prelude::*;
-
-use super::error::Error;
 use schema::types::RfcIndex;
 
 const RFC_INDEX_URL: &str = "https://www.rfc-editor.org/rfc-index.xml";
