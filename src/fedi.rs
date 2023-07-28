@@ -56,8 +56,7 @@ pub fn post_rfc(client: &Mastodon, rfc: RfcEntry) -> Result<String, Error> {
 	let status = StatusBuilder::new()
 		.status(rfc_to_post_text(
 			rfc,
-			usize::from_str_radix(&var("character_limit")?, 10)
-				.map_err(|_| Error::Var(std::env::VarError::NotPresent))?,
+			var("character_limit")?.parse::<usize>().map_err(|_| Error::Var(std::env::VarError::NotPresent))?,
 		))
 		.language(elefren::Language::Eng)
 		.visibility(elefren::status_builder::Visibility::Public)

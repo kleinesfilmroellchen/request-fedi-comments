@@ -12,7 +12,7 @@ pub enum Error {
 	/// Basic I/O errors.
 	Io(Arc<std::io::Error>),
 	/// XML parsing errors.
-	XML(String),
+	Xml(String),
 	/// Environment variable retrieval errors.
 	Var(std::env::VarError),
 	/// Elefren/Fediverse client API errors.
@@ -56,7 +56,7 @@ impl std::fmt::Display for Error {
 		match self {
 			Self::Reqwest(underlying) => write!(f, "Networking: {}", underlying),
 			Self::Io(underlying) => write!(f, "I/O: {}", underlying),
-			Self::XML(underlying) => write!(f, "XML: {}", underlying),
+			Self::Xml(underlying) => write!(f, "XML: {}", underlying),
 			Self::Var(underlying) => write!(f, "Environment: {}", underlying),
 			Self::Fedi(underlying) => write!(f, "Fediverse: {}", underlying),
 			Self::Scheduler(underlying) => write!(f, "Scheduling: {}", underlying),

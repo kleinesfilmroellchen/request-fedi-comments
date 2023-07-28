@@ -33,7 +33,7 @@ const RFC_INDEX_URL: &str = "https://www.rfc-editor.org/rfc-index.xml";
 /// # Errors
 /// Internet or I/O errors, as well as a misformatted XML (unlikely), are propagated.
 pub async fn fetch_rfc_list() -> Result<Vec<RfcEntry>, Error> {
-	Ok(yaserde::de::from_str::<RfcIndex>(&reqwest::get(RFC_INDEX_URL).await?.text().await?).map_err(Error::XML)?.rfcs)
+	Ok(yaserde::de::from_str::<RfcIndex>(&reqwest::get(RFC_INDEX_URL).await?.text().await?).map_err(Error::Xml)?.rfcs)
 }
 
 /// Fetches a random RFC from the public RFC index.
@@ -53,6 +53,6 @@ pub async fn fetch_specific_rfc(document_id: impl AsRef<str>) -> Result<RfcEntry
 	fetch_rfc_list()
 		.await?
 		.into_iter()
-		.find(|rfc| &rfc.doc_id.body == document_id.as_ref())
-		.ok_or(Error::XML("Document ID not found".to_owned()))
+		.find(|rfc| rfc.doc_id.body == document_id.as_ref())
+		.ok_or(Error::Xml("Document ID not found".to_owned()))
 }

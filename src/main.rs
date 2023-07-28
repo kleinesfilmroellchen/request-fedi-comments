@@ -64,7 +64,7 @@ async fn try_run_bot() {
 fn enter_correct_directory() -> Result<(), Error> {
 	let mut args = std::env::args();
 	let executable_name = args.next().unwrap();
-	let target_directory = args.next().map(|d| OsString::from(d)).unwrap_or_else(|| {
+	let target_directory = args.next().map(OsString::from).unwrap_or_else(|| {
 		// Executable *should* live at target/release/executable, so go up 3 parents.
 		Path::new(&executable_name)
 			.canonicalize()
