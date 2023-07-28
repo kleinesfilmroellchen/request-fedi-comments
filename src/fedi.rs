@@ -35,12 +35,17 @@ pub fn rfc_to_post_text(rfc: RfcEntry, character_limit: usize) -> String {
 	let title = rfc.title.trim().to_owned();
 
 	// Parts we can't abbreviate. Note that Mastodon adds a constant penalty of 23 characters for (valid) URLs.
-	let unabbreviatable_length = 4 + number.chars().count().max(4) + 3 + 2 + 1 + 23;
-	let description_length = description.chars().count();
-	let length_overshoot = unabbreviatable_length + description_length + title.chars().count() - character_limit;
+	let unabbreviatable_length = 4 + number.chars().count().max(4) as isize + 3 + 2 + 1 + 23;
+	let description_length = description.chars().count() as isize;
+	let length_overshoot =
+		unabbreviatable_length + description_length + title.chars().count() as isize - character_limit as isize;
 	// Trim description if necessary.
 	if length_overshoot > 0 {
-		description = description.chars().take(description_length - length_overshoot - 1).collect::<String>() + "…";
+		description = description
+			.chars()
+			.take((description_length as usize).saturating_sub(length_overshoot as usize).saturating_sub(1))
+			.collect::<String>()
+			+ "…";
 	}
 
 	format!("RFC {number:04} – {title}\n\n{description}\nhttps://www.rfc-editor.org/rfc/rfc{number}.html")

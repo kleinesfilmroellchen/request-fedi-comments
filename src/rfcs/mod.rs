@@ -43,3 +43,16 @@ pub async fn fetch_rfc_list() -> Result<Vec<RfcEntry>, Error> {
 pub async fn fetch_random_rfc() -> Result<RfcEntry, Error> {
 	Ok(fetch_rfc_list().await?.into_iter().choose(&mut thread_rng()).unwrap())
 }
+
+/// Fetches a specific RFC for testing purposes. The document ID must be of the format "RFC1234" (always with 4 digits currently, use leading 0s if necessary).
+///
+/// # Errors
+/// Internet or I/O errors, as well as a misformatted XML (unlikely), are propagated. An XML error is also synthesized if the document ID is invalid.
+#[allow(unused)]
+pub async fn fetch_specific_rfc(document_id: impl AsRef<str>) -> Result<RfcEntry, Error> {
+	fetch_rfc_list()
+		.await?
+		.into_iter()
+		.find(|rfc| &rfc.doc_id.body == document_id.as_ref())
+		.ok_or(Error::XML("Document ID not found".to_owned()))
+}

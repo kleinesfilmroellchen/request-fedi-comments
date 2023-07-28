@@ -26,3 +26,6 @@ env_logger = { version = "0.10.0", default-features = false, features = [
 	"color",
 	"humantime",
 ] }
+
+[profile.dev]
+opt-level = 3

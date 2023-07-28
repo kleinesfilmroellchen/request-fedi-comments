@@ -9,6 +9,8 @@ use error::Error;
 use fedi::post_rfc;
 use log::{debug, error, info};
 use rfcs::fetch_random_rfc;
+#[allow(unused)]
+use rfcs::fetch_specific_rfc;
 use std::{ffi::OsString, path::Path, time::Duration};
 use tokio_cron_scheduler::{Job, JobScheduler};
 
@@ -25,22 +27,14 @@ async fn main() -> Result<(), Error> {
 	fedi::verify_client()?;
 	info!("Authentication data okay.");
 
-	let bot_cron_job = Job::new_repeated_async(Duration::from_secs(60 * 60), |_, _| {
-		Box::pin(async {
-			let result = run_bot().await;
-			match result {
-				Ok(_) => info!("Scheduled posting successful."),
-				Err(why) => error!("Error while posting scheduled post: {}", why),
-			}
-		})
-	})
-	.unwrap();
-
+	let bot_cron_job = Job::new_repeated_async(Duration::from_secs(60 * 60), |_, _| Box::pin(try_run_bot())).unwrap();
 	let scheduler = JobScheduler::new().await?;
 	scheduler.add(bot_cron_job).await.unwrap();
 	scheduler.start().await?;
 
 	debug!("Scheduled hourly chron job.");
+
+	try_run_bot().await;
 
 	// Loop forever.
 	loop {
@@ -51,11 +45,20 @@ async fn main() -> Result<(), Error> {
 /// Run the bot once, posting an RFC to the Fediverse.
 async fn run_bot() -> Result<(), Error> {
 	let client = fedi::create_client()?;
-	let rfc = fetch_random_rfc().await?;
+	let rfc = fetch_random_rfc().await?; // fetch_specific_rfc("RFC1234").await?;
 	debug!("Retrieved RFC {} for posting", rfc.doc_id.body.strip_prefix("RFC").unwrap());
 	let url = post_rfc(&client, rfc)?;
 	debug!("Posted RFC: {}", url);
 	Ok(())
+}
+
+/// Run the bot and log its errors.
+async fn try_run_bot() {
+	let result = run_bot().await;
+	match result {
+		Ok(_) => info!("Scheduled posting successful."),
+		Err(why) => error!("Error while posting scheduled post: {}", why),
+	}
 }
 
 fn enter_correct_directory() -> Result<(), Error> {
@@ -63,7 +66,17 @@ fn enter_correct_directory() -> Result<(), Error> {
 	let executable_name = args.next().unwrap();
 	let target_directory = args.next().map(|d| OsString::from(d)).unwrap_or_else(|| {
 		// Executable *should* live at target/release/executable, so go up 3 parents.
-		Path::new(&executable_name).canonicalize().unwrap().parent().unwrap().parent().unwrap().parent().unwrap().to_owned().into()
+		Path::new(&executable_name)
+			.canonicalize()
+			.unwrap()
+			.parent()
+			.unwrap()
+			.parent()
+			.unwrap()
+			.parent()
+			.unwrap()
+			.to_owned()
+			.into()
 	});
 	std::env::set_current_dir(target_directory)?;
 	Ok(())
