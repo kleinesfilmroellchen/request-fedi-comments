@@ -29,7 +29,7 @@ pub fn verify_client() -> Result<(), Error> {
 
 /// Create a nicely-formatted post text from an RFC.
 pub fn rfc_to_post_text(rfc: RfcEntry, character_limit: usize) -> String {
-	let number = rfc.doc_id.body.strip_prefix("RFC").unwrap().trim().to_owned();
+	let number = rfc.doc_id.body.strip_prefix("RFC").unwrap().trim().trim_start_matches('0').to_owned();
 	let mut description =
 		rfc.r#abstract.map_or_else(|| "(no description)".into(), |a| a.p.join("\n")).trim().to_owned();
 	let title = rfc.title.trim().to_owned();
