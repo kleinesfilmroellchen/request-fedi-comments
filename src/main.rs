@@ -8,6 +8,7 @@ mod rfcs;
 use error::Error;
 use fedi::post_rfc;
 use log::{debug, error, info};
+#[allow(unused)]
 use rfcs::fetch_random_rfc;
 #[allow(unused)]
 use rfcs::fetch_specific_rfc;

@@ -40,6 +40,7 @@ pub async fn fetch_rfc_list() -> Result<Vec<RfcEntry>, Error> {
 ///
 /// # Errors
 /// Internet or I/O errors, as well as a misformatted XML (unlikely), are propagated.
+#[allow(unused)]
 pub async fn fetch_random_rfc() -> Result<RfcEntry, Error> {
 	Ok(fetch_rfc_list().await?.into_iter().choose(&mut thread_rng()).unwrap())
 }
