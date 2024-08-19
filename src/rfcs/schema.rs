@@ -11,7 +11,6 @@
 use log::{debug, trace, warn};
 use std::io::{Read, Write};
 use yaserde::{YaDeserialize, YaSerialize};
-use yaserde_derive::{YaDeserialize, YaSerialize};
 
 pub const SOAP_ENCODING: &str = "http://www.w3.org/2003/05/soap-encoding";
 #[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
@@ -213,7 +212,7 @@ pub mod types {
 		#[yaserde(rename = "doc-id", prefix = " ", default)]
 		pub doc_id: DocumentId,
 		#[yaserde(rename = "title", prefix = " ", default)]
-		pub title: String,
+		pub title: Option<String>,
 		#[yaserde(rename = "page-count", prefix = " ", default)]
 		pub page_count: Option<i32>,
 		#[yaserde(rename = "abstract", prefix = " ", default)]
@@ -235,9 +234,9 @@ pub mod types {
 		#[yaserde(rename = "see-also", prefix = " ", default)]
 		pub see_also: Option<DocumentRef>,
 		#[yaserde(rename = "current-status", prefix = " ", default)]
-		pub current_status: Status,
+		pub current_status: Option<Status>,
 		#[yaserde(rename = "publication-status", prefix = " ", default)]
-		pub publication_status: Status,
+		pub publication_status: Option<Status>,
 		#[yaserde(rename = "stream", prefix = " ", default)]
 		pub stream: Option<Stream>,
 		#[yaserde(rename = "area", prefix = " ", default)]
