@@ -1,13 +1,16 @@
 //! THIS IS A GENERATED FILE!
 //! Take care when hand editing. Changes will be lost during subsequent runs of the code generator.
 //!
-//! version: 0.1.6
+//! version: 0.1.10
 //!
 
 #![allow(dead_code)]
 #![allow(unused_imports)]
-use log::{debug, warn};
+#![allow(non_local_definitions)]
+
+use log::{debug, trace, warn};
 use std::io::{Read, Write};
+use yaserde::{YaDeserialize, YaSerialize};
 use yaserde_derive::{YaDeserialize, YaSerialize};
 
 pub const SOAP_ENCODING: &str = "http://www.w3.org/2003/05/soap-encoding";
@@ -54,49 +57,49 @@ pub mod types {
 	use yaserde::ser::to_string;
 	use yaserde::{YaDeserialize, YaSerialize};
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "documentId", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "documentId", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct DocumentId {
 		#[yaserde(text, default)]
 		pub body: String,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "status", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "status", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct Status {
 		#[yaserde(text, default)]
 		pub body: String,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "fileFormat", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "fileFormat", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct FileFormat {
 		#[yaserde(text, default)]
 		pub body: String,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "dayOfMonth", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "dayOfMonth", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct DayOfMonth {
 		#[yaserde(default)]
 		pub body: i32,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "monthName", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "monthName", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct MonthName {
 		#[yaserde(text, default)]
 		pub body: String,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "documentRef", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "documentRef", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct DocumentRef {
 		#[yaserde(rename = "doc-id", prefix = " ", default)]
 		pub doc_id: Vec<DocumentId>,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "stream", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "stream", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct Stream {
 		#[yaserde(text, default)]
 		pub body: String,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "doi", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "doi", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct Doi {
 		#[yaserde(text, default)]
 		pub body: String,
@@ -104,7 +107,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "author",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -121,7 +124,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "date",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -129,7 +132,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "format",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -140,7 +143,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "keywords",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -151,7 +154,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "std-entry",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -166,7 +169,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "bcp-entry",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -181,7 +184,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "fyi-entry",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -194,7 +197,7 @@ pub mod types {
 		pub is_also: Option<DocumentRef>,
 	}
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
-	#[yaserde(rename = "abstract", namespace = " : http://www.rfc-editor.org/rfc-index", prefix = " ")]
+	#[yaserde(rename = "abstract", namespace = " : https://www.rfc-editor.org/rfc-index", prefix = " ")]
 	pub struct Abstract {
 		#[yaserde(rename = "p", prefix = " ", default)]
 		pub p: Vec<String>,
@@ -202,7 +205,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "rfc-entry",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -249,7 +252,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "rfc-not-issued-entry",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -260,7 +263,7 @@ pub mod types {
 	#[derive(Debug, Default, YaSerialize, YaDeserialize, Clone)]
 	#[yaserde(
 		rename = "rfc-index",
-		namespace = " : http://www.rfc-editor.org/rfc-index",
+		namespace = " : https://www.rfc-editor.org/rfc-index",
 		namespace = "xsi: http://www.w3.org/2001/XMLSchema-instance",
 		prefix = " "
 	)]
@@ -269,7 +272,7 @@ pub mod types {
 		pub title: Option<String>,
 		#[yaserde(rename = "rfc-entry")]
 		pub rfcs: Vec<RfcEntry>,
-		#[yaserde(rename = "rfc-entry-not-issued")]
+		#[yaserde(rename = "rfc-not-issued-entry")]
 		pub not_issued_rfcs: Vec<RfcNotIssuedEntry>,
 		#[yaserde(rename = "std-entry")]
 		pub stds: Vec<RfcEntry>,
@@ -302,4 +305,67 @@ pub mod services {
 	use yaserde::de::from_str;
 	use yaserde::ser::to_string;
 	use yaserde::{YaDeserialize, YaSerialize};
+}
+
+pub mod multiref {
+	//! This module contains the `MultiRef` type which is a wrapper around `Rc<RefCell<T>>` that implements `YaDeserialize` and `YaSerialize` for `T` and allows for multiple references to the same object.
+	//! Inspired by [this](https://github.com/media-io/yaserde/issues/165#issuecomment-1810243674) comment on the yaserde repository.
+	//! Needs `xml-rs` and `yaserde` as dependencies.
+
+	use std::{cell::RefCell, ops::Deref, rc::Rc};
+	use yaserde::{YaDeserialize, YaSerialize};
+
+	pub struct MultiRef<T> {
+		inner: Rc<RefCell<T>>,
+	}
+
+	impl<T: YaDeserialize + YaSerialize> YaDeserialize for MultiRef<T> {
+		fn deserialize<R: std::io::prelude::Read>(reader: &mut yaserde::de::Deserializer<R>) -> Result<Self, String> {
+			let inner = T::deserialize(reader)?;
+			Ok(Self { inner: Rc::new(RefCell::new(inner)) })
+		}
+	}
+
+	impl<T: YaDeserialize + YaSerialize> YaSerialize for MultiRef<T> {
+		fn serialize<W: std::io::prelude::Write>(
+			&self,
+			writer: &mut yaserde::ser::Serializer<W>,
+		) -> Result<(), String> {
+			self.inner.as_ref().borrow().serialize(writer)?;
+			Ok(())
+		}
+
+		fn serialize_attributes(
+			&self,
+			attributes: Vec<xml::attribute::OwnedAttribute>,
+			namespace: xml::namespace::Namespace,
+		) -> Result<(Vec<xml::attribute::OwnedAttribute>, xml::namespace::Namespace), String> {
+			self.inner.as_ref().borrow().serialize_attributes(attributes, namespace)
+		}
+	}
+
+	impl<T: YaDeserialize + YaSerialize + Default> Default for MultiRef<T> {
+		fn default() -> Self {
+			Self { inner: Rc::default() }
+		}
+	}
+
+	impl<T: YaDeserialize + YaSerialize> Clone for MultiRef<T> {
+		fn clone(&self) -> Self {
+			Self { inner: self.inner.clone() }
+		}
+	}
+
+	impl<T: YaDeserialize + YaSerialize + std::fmt::Debug> std::fmt::Debug for MultiRef<T> {
+		fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+			self.inner.as_ref().borrow().fmt(f)
+		}
+	}
+
+	impl<T> Deref for MultiRef<T> {
+		type Target = Rc<RefCell<T>>;
+		fn deref(&self) -> &Self::Target {
+			&self.inner
+		}
+	}
 }

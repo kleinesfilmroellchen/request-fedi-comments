@@ -9,7 +9,7 @@
 /// ```ignore
 /// #[yaserde(rename = "rfc-entry")]
 /// pub rfcs: Vec<RfcEntry>,
-/// #[yaserde(rename = "rfc-entry-not-issued")]
+/// #[yaserde(rename = "rfc-not-issued-entry")]
 /// pub not_issued_rfcs: Vec<RfcNotIssuedEntry>,
 /// #[yaserde(rename = "std-entry")]
 /// pub stds: Vec<RfcEntry>,
